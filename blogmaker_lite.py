@@ -1,27 +1,21 @@
-from pathlib import Path
 import os
 
-import django
-from django.conf import settings
-from django.urls import path
+from django.contrib import admin
 from django.core.handlers.wsgi import WSGIHandler
-from django.core.management import \
-    execute_from_command_line
 from django.shortcuts import render
+from django.urls import path
 
+from blogs.models import Blog
 
-# Load settings.
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
-django.setup()
+admin.site.register(Blog)
 
 def index(request):
     return render(request, "index.html")
 
+
 urlpatterns = [
-    path("", index)
+    path("", index),
+    path("admin/", admin.site.urls),
 ]
 
 application = WSGIHandler()
-
-if __name__ == "__main__":
-    execute_from_command_line()
